@@ -3,8 +3,10 @@
 import { useCallback, useState } from "react";
 import FileUpload from "@/components/FileUpload";
 import DateRangePicker from "@/components/DateRangePicker";
+import DiagnosticReport from "@/components/DiagnosticReport";
 import ResultsSummary from "@/components/ResultsSummary";
 import WorkOrderTable from "@/components/WorkOrderTable";
+import ProcessingStatus from "@/components/ProcessingStatus";
 import {
   uploadFile,
   processOrders,
@@ -103,6 +105,7 @@ export default function Home() {
         >
           {processing ? "Processing…" : "Run audit"}
         </button>
+        <ProcessingStatus active={processing} />
         {processError && (
           <p style={{ marginTop: 8, color: "var(--danger)", fontSize: 14 }}>
             {processError}
@@ -112,7 +115,13 @@ export default function Home() {
 
       {result && (
         <>
-          <h2 style={{ fontSize: 18, marginBottom: 12 }}>Summary</h2>
+          <h2 style={{ fontSize: 18, marginBottom: 12 }}>
+            Asset Manager Diagnostic Report
+          </h2>
+          <DiagnosticReport diagnostic={result.diagnostic} />
+          <h2 style={{ fontSize: 18, marginTop: 24, marginBottom: 12 }}>
+            Counts &amp; patterns
+          </h2>
           <ResultsSummary summary={result.summary} />
           <h2 style={{ fontSize: 18, marginTop: 24, marginBottom: 12 }}>
             Categorized work orders

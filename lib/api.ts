@@ -6,6 +6,7 @@ export interface WorkOrderRaw {
   date?: string | null;
   unit?: string | null;
   source_text?: string | null;
+  issue?: string | null;
 }
 
 export interface UploadResponse {
@@ -28,9 +29,44 @@ export interface SummaryResult {
   red_flags: string[];
 }
 
+export interface DiagnosticSection {
+  title: string;
+  metrics: Record<string, unknown>;
+  red_flags: string[];
+  note?: string | null;
+}
+
+export interface ExecutiveSummary {
+  whats_working: string[];
+  needs_watching: string[];
+  immediate_actions: string[];
+  top_3_risks_noi: string[];
+  top_3_risks_reputation: string[];
+  top_3_system_failures: string[];
+  action_list: string[];
+}
+
+export interface DiagnosticSummary {
+  executive_summary: ExecutiveSummary;
+  volume_velocity: DiagnosticSection;
+  response_sla: DiagnosticSection;
+  completion_throughput: DiagnosticSection;
+  open_risk_profile: DiagnosticSection;
+  repeat_chronic: DiagnosticSection;
+  make_ready: DiagnosticSection;
+  vendor_performance: DiagnosticSection;
+  cost_diagnostics: DiagnosticSection;
+  superintendent_performance: DiagnosticSection;
+  resident_satisfaction: DiagnosticSection;
+  reputation_risk: DiagnosticSection;
+  fraud_indicators: DiagnosticSection;
+  forward_looking_risk: DiagnosticSection;
+}
+
 export interface ProcessResponse {
   categorized: CategorizedOrder[];
   summary: SummaryResult;
+  diagnostic: DiagnosticSummary;
 }
 
 export async function uploadFile(file: File): Promise<UploadResponse> {
